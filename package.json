@@ -1,0 +1,28 @@
+{
+  "name": "contract-dolly",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xGh/contract-dolly.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "BSD 3-Clause License",
+  "bugs": {
+    "url": "https://github.com/0xGh/contract-dolly/issues"
+  },
+  "homepage": "https://github.com/0xGh/contract-dolly#readme",
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "eth-gas-reporter": "^0.2.25",
+    "truffle": "^5.5.18"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0"
+  }
+}
