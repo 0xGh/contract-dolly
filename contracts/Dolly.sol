@@ -33,22 +33,27 @@ contract Dolly is IDolly, ERC721, Admin {
     _originalIds[cloneId] = tokenId;
     _tokenAddresses[cloneId] = tokenAddress;
     _safeMint(msg.sender, cloneId);
+    emit Clone(tokenAddress, tokenId, msg.sender, cloneId);
   }
 
   /**
    * @dev See {IDolly-lend}.
    */
   function lend(uint cloneId, address to, uint expires) external {
-    ERC721.safeTransferFrom(ERC721.ownerOf(cloneId), to, cloneId);
+    address owner = ERC721.ownerOf(cloneId);
+    ERC721.safeTransferFrom(owner, to, cloneId);
     _lendingExpires[cloneId] = expires;
+    emit Lend(owner, to, cloneId, expires);
   }
 
   /**
    * @dev See {IDolly-claim}.
    */
   function claim(uint cloneId) external {
-    _transfer(ERC721.ownerOf(cloneId), msg.sender, cloneId);
+    address owner = ERC721.ownerOf(cloneId);
+    _transfer(owner, msg.sender, cloneId);
     delete _lendingExpires[cloneId];
+    emit Claim(owner, msg.sender, cloneId);
   }
 
   /**
@@ -57,6 +62,7 @@ contract Dolly is IDolly, ERC721, Admin {
   function returnToken(uint cloneId) external {
     address owner = _originalOwnerOf(cloneId);
     _transfer(msg.sender, owner, cloneId);
+    emit ReturnToken(msg.sender, owner, cloneId);
   }
 
   /**
@@ -68,6 +74,15 @@ contract Dolly is IDolly, ERC721, Admin {
     delete _originalIds[cloneId];
     delete _tokenAddresses[cloneId];
     delete _lendingExpires[cloneId];
+    emit Burn(cloneId);
+  }
+
+  /**
+   * @dev See {IDolly-getCloneInfo}.
+   */
+  function getCloneInfo(uint cloneId) external view returns (address, uint) {
+    require(_originalIds[cloneId] != 0, "Dolly: query for non-existent token");
+    return (_tokenAddresses[cloneId], _originalIds[cloneId]);
   }
 
   /**
@@ -85,7 +100,7 @@ contract Dolly is IDolly, ERC721, Admin {
         return;
       }
       require(block.timestamp > _lendingExpires[cloneId], "Dolly: token locked until current lending expiration");
-      require(_canTransfer(msg.sender, cloneId), "Dolly: caller is allowed to transfer token");
+      require(_canTransfer(msg.sender, cloneId), "Dolly: caller is not allowed to transfer token");
     }
   }
 

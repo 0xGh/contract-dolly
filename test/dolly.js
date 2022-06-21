@@ -72,14 +72,14 @@ contract("Dolly", ([original, owner, collector, malicious, ...accounts]) => {
 
       const cloneId = 1;
 
-      // owner lents the clone
+      // owner lends the clone
       await dolly.lend(cloneId, collector, 0, { from: owner });
 
       await expectRevert(
         dolly.safeTransferFrom(collector, malicious, cloneId, {
           from: collector,
         }),
-        "Dolly: caller is allowed to transfer token"
+        "Dolly: caller is not allowed to transfer token"
       );
     });
   });
@@ -97,7 +97,7 @@ contract("Dolly", ([original, owner, collector, malicious, ...accounts]) => {
 
       const cloneId = 1;
 
-      // owner lents the clone
+      // owner lends the clone
       await dolly.lend(cloneId, collector, 0, { from: owner });
       await new Promise((resolve) => setTimeout(resolve));
       // owner claims clone
@@ -116,7 +116,7 @@ contract("Dolly", ([original, owner, collector, malicious, ...accounts]) => {
 
       const cloneId = 1;
 
-      // owner lents the clone
+      // owner lends the clone
       await dolly.lend(cloneId, collector, dateSeconds(Date.now() + 1000), {
         from: owner,
       });
@@ -177,7 +177,7 @@ contract("Dolly", ([original, owner, collector, malicious, ...accounts]) => {
 
       await expectRevert(
         dolly.burn(cloneId, { from: malicious }),
-        "Dolly: caller is allowed to transfer token"
+        "Dolly: caller is not allowed to transfer token"
       );
 
       // owner lents the token

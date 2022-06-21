@@ -1,7 +1,7 @@
 {
   "name": "contract-dolly",
   "version": "0.1.0",
-  "description": "",
+  "description": "A smart contract that can clone your NFTs.",
   "main": "index.js",
   "scripts": {
     "test": "truffle test"
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/0xGh/contract-dolly.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "BSD 3-Clause License",
+  "author": "0xG",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/0xGh/contract-dolly/issues"
   },
