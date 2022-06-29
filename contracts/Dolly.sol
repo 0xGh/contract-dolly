@@ -80,9 +80,21 @@ contract Dolly is IDolly, ERC721, Admin {
   /**
    * @dev See {IDolly-getCloneInfo}.
    */
-  function getCloneInfo(uint cloneId) external view returns (address, uint) {
+  function getCloneInfo(uint cloneId) external view returns (
+    address tokenAddress,
+    uint tokenId,
+    address originalOwner,
+    address owner,
+    uint expires
+  ) {
     require(_originalIds[cloneId] != 0, "Dolly: query for non-existent token");
-    return (_tokenAddresses[cloneId], _originalIds[cloneId]);
+    return (
+      _tokenAddresses[cloneId],
+      _originalIds[cloneId],
+      _originalOwnerOf(cloneId),
+      ERC721.ownerOf(cloneId),
+      _lendingExpires[cloneId]
+    );
   }
 
   /**

@@ -17,5 +17,5 @@ interface IDolly {
   function claim(uint cloneId) external;
   function returnToken(uint cloneId) external;
   function burn(uint cloneId) external;
-  function getCloneInfo(uint cloneId) external view returns (address, uint);
+  function getCloneInfo(uint cloneId) external view returns (address tokenAddress, uint tokenId, address originalOwner, address owner, uint expires);
 }
